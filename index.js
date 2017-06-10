@@ -104,14 +104,18 @@ function draw(x, y) {
 
 function getColorByNumber(number) {
     var colorValue = {
-        0: 0x00FF00,
-        2: 0xFF0000,
-        4: 0x0000FF,
-        8: 0xF0F0F0,
-        16: 0xFFFFFF,
-        32: 0xF00000,
-        64: 0x00F0F0,
-        128:0xF00FFF
+        0: 0xE84545,
+        2: 0xF08A5D,
+        4: 0xB83B5E,
+        8: 0x6A2C70,
+        16: 0xF38181,
+        32: 0xFCE38A,
+        64: 0x2D4059,
+        128:0x364F6B,
+        256: 0x3FC1C9,
+        512: 0xFC5185,
+        1024 :0xFCBAD3,
+        2048 :0xF6416C
     };
 
     return colorValue[number];
@@ -119,7 +123,22 @@ function getColorByNumber(number) {
 
 var x = random();
 var y = random();
-grid[x][y] = 2 ;
+
+var addRandomCell = function () {
+    var rowIndex = random();
+    var columnIndex = random();
+
+    while (grid[rowIndex][columnIndex] !== 0 ) {
+        rowIndex = random();
+        columnIndex = random();
+    }
+
+    grid[rowIndex][columnIndex] = 2;
+};
+
+addRandomCell();
+addRandomCell();
+
 
 
 var flushUI = function () {
@@ -142,11 +161,47 @@ document.addEventListener('keydown', function (event) {
 
     }
     else if (event.key === 'ArrowUp') {
-        
+        rotateArray(1);
+        moveCellToRight();
+        rotateArray(3);
+        addRandomCell();
+        flushUI();
 
+    }
+    else if(event.key === 'ArrowLeft') {
+        rotateArray(2);
+        moveCellToRight();
+        rotateArray(2);
+        addRandomCell();
+        flushUI();
+    }
+    else
+    {
+        rotateArray(3);
+        moveCellToRight();
+        rotateArray(1);
+        addRandomCell();
+        flushUI();
     }
 
 });
+
+function rotateArray(rotateCount = 1) {
+    for (var i = 0 ; i < rotateCount; i ++) {
+        grid = rotateArrayToRightOnce(grid);
+    }
+
+    function rotateArrayToRightOnce(array) {
+        return array.map((row, rowIndex) => {
+                return row.map((item, columnIndex) => {
+                    return array[3 - columnIndex][rowIndex];
+    })
+    })
+    }
+}
+
+
+
 
 
 
