@@ -31,37 +31,65 @@ var grid = [];
 for (var i = 0; i < 4; i++) {
     grid[i] = [0, 0, 0, 0];
 }
-var graphics = new PIXI.Graphics();
-graphics.lineStyle(2, 0xF9ED69, 1);
-graphics.beginFill(0x7EB19F, 1);
-var width = app.renderer.width;
-for (var i = 0; i < 4; i++) {
-    for (var j = 0; j < 4; j++) {
-        graphics.drawRect(app.renderer.width / 8 + j * width / 6, app.renderer.height / 8 * 3 + i * width / 6, width / 6, width / 6);
+
+
+function draw(x, y) {
+
+
+    if (grid[x][y] === 0) {
+        var graphics1 = new PIXI.Graphics();
+        graphics1.lineStyle(2, 0xF9ED69, 1);
+        graphics1.beginFill(0x7EB19F, 1);
+        graphics1.drawRect(app.renderer.width / 8 + x * width / 6, app.renderer.height / 8 * 3 + y * width / 6, width / 6, width / 6);
+        app.stage.addChild(graphics1);
+    }
+
+    else {
+        var graphics1 = new PIXI.Graphics();
+        graphics1.lineStyle(2, 0xF9ED69, 1);
+        graphics1.beginFill(0xFFFFF, 1);
+        graphics1.drawRect(app.renderer.width / 8 + x * width / 6, app.renderer.height / 8 * 3 + y * width / 6, width / 6, width / 6);
+        app.stage.addChild(graphics1);
+
+
+        var number = new PIXI.Text('2', {
+            fontSize: 48,
+            fill: ['#7EB19F']
+        });
+
+
+        number.anchor.set(0.5);
+        number.x = 75 / 2 + app.renderer.width / 8 + x * width / 6;
+        number.y = 75 / 2 + app.renderer.height / 8 * 3 + y * width / 6;
+        app.stage.addChild(number);
     }
 }
-app.stage.addChild(graphics);
 
-function randow() {
+
+var width = app.renderer.width;
+
+
+var x = random();
+var y = random();
+grid[x][y] = 2 ;
+
+for (var i = 0; i < 4; i++) {
+    for (var j = 0; j < 4; j++) {
+        draw(i, j);
+    }
+}
+
+
+
+function random() {
     return Math.floor(Math.random() * 4);
 }
-var number = new PIXI.Text('2' , {
-    fontSize : 48
-})
-var x = randow() ;
-var y = randow() ;
-var graphics1 = new PIXI.Graphics();
-graphics.beginFill(0xEF9037, 1);
-graphics1.drawRect(app.renderer.width / 8 + x * width / 6 , app.renderer.height / 8 * 3 + y * width /6 , width / 6, width / 6);
-app.stage.addChild(graphics1);
-var number = new PIXI.Text('2', {
-    fontSize: 48,
-    fill : ['#7EB19F']
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowRight') {
+        console.log(event);
+    }
 });
-number.anchor.set(0.5);
-number.x = 75/2 + app.renderer.width/ 8 + x * width / 6 ;
-number.y = 75 /2 + app.renderer.height / 8 * 3 + y * width / 6;
-app.stage.addChild(number);
 
 
 
